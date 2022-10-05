@@ -1,0 +1,144 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	  <title>AFrame demo</title>
+	  <script type="text/javascript" src="../js/aframe.js" th:src"@{js/aframe.js}"></script>
+	  <script type="text/javascript" src="../js/aframe-room-component.js" th:src"@{js/aframe-room-component.js}"></script>
+	  <script type="text/javascript" src="../js/aframe-extras.js" th:src"@{js/aframe-extras.js}"></script>
+	  <script type="text/javascript" src="../js/aframe-physics-system.js" th:src"@{js/aframe-physics-system.js}"></script>
+	  <script>
+	  AFRAME.registerComponent('clickhandler', {
+	        schema: {
+	          txt: {default:'default'}
+	        },        
+	        init: function () {
+	          var data = this.data;
+	          var el = this.el;        
+	          el.addEventListener('click', function () {                       
+			  	switch (data.txt) {
+				  case "box1":
+					  window.open("puzzle","_self");
+					  break;
+				  case "box2":
+					  window.open("puzzle2","_self");
+					  break;
+				  case "box3":
+					  window.open("quizz","_self");
+					  break;
+				  case "box4":
+					  window.open("platformer","_self");
+					  break;
+				  default:
+			  	}	        	
+	          });        
+	        }
+	      });
+	  </script>
+
+	  
+	</head>
+	
+	<body>
+		<a-scene physics="debug: true">
+			
+			<a-entity cursor="rayOrigin:mouse"></a-entity>
+
+			<a-assets>
+				<a-mixin id="floorMat" material="color:white"></a-mixin>		
+				<img crossorigin="anonymous" id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+				<img crossorigin="anonymous" id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg">
+			</a-assets>
+			
+		    <a-sky height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048" segments-height="5" segments-width="8"></a-sky>
+      		<a-plane src="#groundTexture" rotation="-90 0 0" position="0 -0.01 0" height="100" width="100" static-body></a-plane>			
+			
+			<a-light type="directional" intensity="0.9" position="-1 -2  2"></a-light>
+			<a-light type="directional" intensity="1.0" position=" 2  1 -1"></a-light>
+
+			<rw-room position="-2 0 -2" material="color:#FFF">
+				<rw-wall position="0 0 0" material="color:#FFF">
+			  		<rw-doorhole id="holeA"></rw-doorhole>
+			  		<rw-doorlink from="#holeA" to="#holeB" position="2 0 0"></rw-doorlink>
+				</rw-wall>
+				
+				<rw-wall position="4 0 0" material="color:#FFF">
+					<rw-doorhole id="holeG"></rw-doorhole>
+			  		<rw-doorlink from="#holeG" to="#holeH" position="2 0 0"></rw-doorlink>
+				</rw-wall>
+				<rw-wall position="4 0 4" material="color:#FFF"> <!--suprotni-->
+					<rw-doorhole id="holeC"></rw-doorhole>
+			  		<rw-doorlink from="#holeC" to="#holeD" position="2 0 0"></rw-doorlink>
+				</rw-wall>
+				<rw-wall position="0 0 4" material="color:#FFF">
+					<rw-doorhole id="holeE"></rw-doorhole>
+			  		<rw-doorlink from="#holeE" to="#holeF" position="2 0 0"></rw-doorlink>
+				</rw-wall>
+				 <rw-floor static-body></rw-floor>
+       			 <rw-ceiling material="color:#AAA"></rw-ceiling>
+			</rw-room>
+			
+			<rw-room position="0 0 -3">
+				<rw-wall position=" 2 0 -1" material="color:red"></rw-wall>
+				<rw-wall position=" 2 0  1" material="color:red">
+					<rw-doorhole id="holeB"></rw-doorhole>
+				</rw-wall>
+				<rw-wall position="-2 0  1" material="color:red"></rw-wall>
+				<rw-wall position="-2 0 -1" material="color:red">
+		            <a-box position="2 1.7 0.1" scale="0.5 0.5 0.2" clickhandler="txt:box1"></a-box>
+				</rw-wall>
+				 <rw-ceiling material="color:red"></rw-ceiling>
+			</rw-room>
+			
+			<rw-room position="0 0 3">
+				<rw-wall position=" 2 0 -1" material="color:green"></a-box></rw-wall>
+				<rw-wall position=" 2 0  1" material="color:green">
+					<a-box position="2 1.7 0.1" scale="0.5 0.5 0.2" clickhandler="txt:box2">
+				</rw-wall>
+				<rw-wall position="-2 0  1" material="color:green">	</rw-wall>
+				<rw-wall position="-2 0 -1" material="color:green">
+					<rw-doorhole id="holeD"></rw-doorhole>
+				</rw-wall>
+				 <rw-ceiling material="color:green"></rw-ceiling>
+			</rw-room>
+			
+			<rw-room position="3 0 0">
+				<rw-wall position=" 1 0 -4" material="color:blue">
+					<a-box position="4 1.7 0.1" scale="0.5 0.5 0.2" clickhandler="txt:box3">
+				</rw-wall>
+				<rw-wall position=" 1 0  4" material="color:blue">
+				</rw-wall>
+				<rw-wall position="-1 0  4" material="color:blue">	
+					<rw-doorhole id="holeH"></rw-doorhole>
+				</rw-wall>
+				<rw-wall position="-1 0 -4" material="color:blue"></rw-wall>
+				<rw-ceiling material="color:blue"></rw-ceiling>
+			</rw-room>
+			
+			<rw-room position="-3 0 0">
+				<rw-wall position=" 1 0 -4" material="color:gray">
+					<rw-doorhole id="holeF"></rw-doorhole>
+				</rw-wall>
+				<rw-wall position=" 1 0  4" material="color:gray">
+				</rw-wall>
+				<rw-wall position="-1 0  4" material="color:gray">
+					<a-box position="4 1.7 0.1" scale="0.5 0.5 0.2" clickhandler="txt:box4">
+				</rw-wall>
+				<rw-wall position="-1 0 -4" material="color:gray"></rw-wall>
+				<rw-ceiling material="color:gray"></rw-ceiling>
+			</rw-room>
+			
+			
+			<rw-room position="0 0 0" outside="true" material="color:#877">
+				<rw-wall position="-4.1 0 -4.1" height="3"></rw-wall>
+				<rw-wall position=" 4.1 0 -4.1" height="3"></rw-wall>
+				<rw-wall position=" 4.1 0  4.1" height="3"></rw-wall>
+				<rw-wall position="-4.1 0  4.1" height="3">
+				</rw-wall>		
+			</rw-room>
+			
+			
+			
+		</a-scene>
+
+	</body>
+
+</html>
